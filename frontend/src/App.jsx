@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const COLORS = ["#fff3c4", "#dff5e8", "#e8e7ff", "#ffe4e7", "#e0f1ff", "#f5e6ff"];
 const CATEGORIES = ["Personal", "Study", "Work", "Ideas"];
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
 function Icon({ name, size = 18 }) {
   const paths = {
@@ -27,7 +28,7 @@ function readNotes(email) {
 }
 
 async function apiRequest(path, token, options = {}) {
-  const response = await fetch(path, {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers: {
       ...(options.body ? { "Content-Type": "application/json" } : {}),

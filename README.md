@@ -4,22 +4,31 @@ A responsive notes app with a React frontend, Express API, and MongoDB storage.
 
 ## What's included
 - `notesapp/` — Express API, authentication, and Mongoose models for users and notes.
-- `frontend/` — React + Vite app with login, registration, create/edit/delete notes, search, pinning, categories, dashboard statistics, dark mode, JSON export, and responsive layout.
+- `frontend/` — React + Vite app with login, registration, note management, search, categories, and responsive layout.
 - Notes are saved in MongoDB in the `notes` collection and associated with the signed-in user.
 - Existing browser-stored notes are imported into MongoDB at sign-in if that user's database has no notes yet.
+- `render.yaml` — Render Blueprint for deploying the API and frontend together.
 
-## Run on Windows
+## Deploy frontend and backend on Render
 
-### 1. Configure the backend
-Create `notesapp\.env` and add your MongoDB connection string:
+1. Push this repository to GitHub and make sure your MongoDB database is reachable from Render. For MongoDB Atlas, create a database user with only the permissions the app needs and allow Render's outbound connections in Atlas Network Access.
+2. In Render, choose **New → Blueprint**, connect `karan17788/NotesWebspp`, and select the `main` branch.
+3. Review the two services in `render.yaml` and create the Blueprint. When prompted, enter `MONGO_URI` using the MongoDB Atlas connection string. Use the correct database name in that URI.
+4. Render generates `JWT_SECRET` and connects the frontend API URL and backend CORS origin automatically. Wait for both services to finish deploying.
+5. Open the frontend's `onrender.com` URL, register, and sign in. The backend health endpoint is `/health`.
+
+The free backend service can sleep after inactivity, so its first request after a pause may take longer. The web service and static frontend are separate Render services; the Blueprint wires their URLs together.
+
+## Run locally on Windows
+
+### 1. Configure and run the backend
+Create `notesapp\.env` with your MongoDB connection string:
 
 ```text
 MONGO_URI=YOUR_MONGODB_CONNECTION_STRING
 ```
 
-For MongoDB Compass, connect to the same MongoDB server and open the database named in your connection string. Notes appear in its `notes` collection; users appear in `users`. Never commit or share your real `.env` file.
-
-Install backend dependencies (first run only) and start the API:
+Never commit or share the real `.env` file. Install dependencies and start the API:
 
 ```powershell
 cd notesapp
@@ -29,7 +38,7 @@ npm run server
 
 The backend runs on `http://localhost:8080`.
 
-### 2. Start the frontend
+### 2. Run the frontend
 Open a second PowerShell terminal:
 
 ```powershell
@@ -38,7 +47,7 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL printed in the terminal, usually `http://localhost:5173`. Its development proxy forwards `/user`, `/dashboard`, and `/notes` requests to the backend.
+Open the Vite URL printed in the terminal, usually `http://localhost:5173`. The development proxy forwards API requests to the local backend.
 
 ## Notes
 - Register an account first, then sign in.

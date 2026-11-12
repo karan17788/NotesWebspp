@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 const { userModel } = require("../model/user.model");
 
 const userRouter = express.Router();
+const jwtSecret = process.env.JWT_SECRET || "coding";
 
 userRouter.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password);
 
   try {
     bcrypt.hash(password, 5, async (err, hash) => {
@@ -33,7 +33,7 @@ userRouter.post("/login", async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) return res.status(401).send("Wrong Password");
 
-    const token = jwt.sign({ userId: user._id.toString() }, "coding");
+    const token = jwt.sign({ userId: user._id.toString() }, jwtSecret);
     res.send({ msg: "Login Successfully", token, name: user.name });
   } catch (error) {
     console.error("Login failed:", error);
