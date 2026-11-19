@@ -2,11 +2,8 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const mongoUri = process.env.MONGO_URI;
-
-if (!mongoUri) {
-  throw new Error("MONGO_URI is not set. Add it to the .env file.");
-}
+const { normalizeMongoUri } = require("./config/mongo-uri");
+const mongoUri = normalizeMongoUri(process.env.MONGO_URI);
 
 const connection = mongoose.connect(mongoUri);
 
