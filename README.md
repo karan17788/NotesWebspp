@@ -9,15 +9,15 @@ A responsive notes app with a React frontend, Express API, and MongoDB storage.
 - Existing browser-stored notes are imported into MongoDB at sign-in if that user's database has no notes yet.
 - `render.yaml` — Render Blueprint for deploying the API and frontend together.
 
-## Deploy frontend and backend on Render
+## Deploy frontend on Netlify and backend on Render
 
-1. Push this repository to GitHub and make sure your MongoDB database is reachable from Render. For MongoDB Atlas, create a database user with only the permissions the app needs and allow Render's outbound connections in Atlas Network Access.
-2. In Render, choose **New → Blueprint**, connect `karan17788/NotesWebspp`, and select the `main` branch.
-3. Review the two services in `render.yaml` and create the Blueprint. When prompted, enter `MONGO_URI` using the MongoDB Atlas connection string. Use the correct database name in that URI.
-4. Render generates `JWT_SECRET` and connects the frontend API URL and backend CORS origin automatically. Wait for both services to finish deploying.
-5. Open the frontend's `onrender.com` URL, register, and sign in. The backend health endpoint is `/health`.
+1. Make sure MongoDB Atlas accepts connections from Render and that the Atlas database user credentials are current.
+2. Deploy the `notesapp/` service on Render from `render.yaml`. Set `MONGO_URI` in the Render service environment using the Atlas connection string; do not commit it to the repository.
+3. Deploy the frontend on Netlify using the repository root configuration in `netlify.toml`. Set the Netlify build environment variable `VITE_API_BASE_URL` to `https://noteswebspp-karan17788-api.onrender.com`.
+4. Ensure the Render API's `CORS_ORIGIN` is the Netlify site origin (`https://notely-noteswebspp-karan17788.netlify.app`).
+5. Check the API health endpoint at `/health`, then register and sign in on the Netlify site.
 
-The free backend service can sleep after inactivity, so its first request after a pause may take longer. The web service and static frontend are separate Render services; the Blueprint wires their URLs together.
+The free Render backend can sleep after inactivity, so its first request after a pause may take longer.
 
 ## Run locally on Windows
 

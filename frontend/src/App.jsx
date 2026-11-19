@@ -144,7 +144,7 @@ export default function App() {
     setAuthBusy(true);
     try {
       const isLogin = authMode === "login";
-      const response = await fetch(isLogin ? "/user/login" : "/user/register", {
+      const response = await fetch(`${API_BASE_URL}${isLogin ? "/user/login" : "/user/register"}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(isLogin
