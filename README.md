@@ -14,7 +14,7 @@ A responsive notes app with a React frontend, Express API, and MongoDB storage.
 1. Make sure MongoDB Atlas accepts connections from Render and that the Atlas database user credentials are current.
 2. Deploy the `notesapp/` service on Render from `render.yaml`. Set `MONGO_URI` in the Render service environment using the Atlas connection string; do not commit it to the repository.
 3. Deploy the frontend on Netlify using the repository root configuration in `netlify.toml`. Set the Netlify build environment variable `VITE_API_BASE_URL` to `https://noteswebspp-karan17788-api.onrender.com`.
-4. Ensure the Render API's `CORS_ORIGIN` is the Netlify site origin (`https://notely-noteswebspp-karan17788.netlify.app`).
+4. Ensure the Render API's `CORS_ORIGIN` includes the frontend origin (`https://noteswebspp-karan17788-frontend.onrender.com`; add `https://notely-noteswebspp-karan17788.netlify.app` too if using the Netlify copy).
 5. Check the API health endpoint at `/health`, then register and sign in on the Netlify site.
 
 The free Render backend can sleep after inactivity, so its first request after a pause may take longer.

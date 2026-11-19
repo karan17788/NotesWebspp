@@ -13,7 +13,7 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ORIGIN
-        value: https://notely-noteswebspp-karan17788.netlify.app
+        value: https://noteswebspp-karan17788-frontend.onrender.com,https://notely-noteswebspp-karan17788.netlify.app
 
   - type: web
     name: noteswebspp-karan17788-frontend
